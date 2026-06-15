@@ -53,7 +53,7 @@ class ClientSetupHandlerClaudeCode(ClientSetupHandler):
         super().__init__("claude-code")
 
     def is_applicable(self) -> bool:
-        result = execute_shell_command("claude --version")
+        result = execute_shell_command("claude --version", capture_stderr=True)
         return result.return_code == 0 and "Claude" in result.stdout
 
     def get_mcp_server_options(self) -> list[str]:
@@ -78,7 +78,7 @@ class ClientSetupHandlerCodex(ClientSetupHandler):
         super().__init__("codex")
 
     def is_applicable(self) -> bool:
-        result = execute_shell_command("codex --version")
+        result = execute_shell_command("codex --version", capture_stderr=True)
         return result.return_code == 0 and "codex-cli" in result.stdout
 
     def get_mcp_server_options(self) -> list[str]:
@@ -93,7 +93,7 @@ class ClientSetupHandlerCodeBuddy(ClientSetupHandler):
         super().__init__("codebuddy")
 
     def is_applicable(self) -> bool:
-        result = execute_shell_command("codebuddy --version")
+        result = execute_shell_command("codebuddy --version", capture_stderr=True)
         return result.return_code == 0
 
     def get_mcp_server_options(self) -> list[str]:
