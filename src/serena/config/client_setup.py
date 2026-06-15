@@ -94,7 +94,7 @@ class ClientSetupHandlerCodeBuddy(ClientSetupHandler):
 
     def is_applicable(self) -> bool:
         result = execute_shell_command("codebuddy --version")
-        return result.return_code == 0 and "CodeBuddy" in result.stdout
+        return result.return_code == 0
 
     def get_mcp_server_options(self) -> list[str]:
         return ["--context=codebuddy", "--project-from-cwd"]
