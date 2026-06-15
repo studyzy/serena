@@ -21,12 +21,12 @@ Depending on your needs, you might want to further customize Serena's behaviour 
 * [adjusting configuration](050_configuration).
 
 **Mode of Operation**.
-Note that some clients have a per-workspace MCP configuration (e.g, VSCode and Claude Code),
+Note that some clients have a per-workspace MCP configuration (e.g, VSCode, Claude Code, and CodeBuddy),
 while others have a global MCP configuration (e.g. Codex and Claude Desktop).
 
 - In the per-workspace case, you typically want to start Serena with your workspace directory as the project directory 
   and never switch to a different project. This is achieved by specifying the
-  `--project <path>` argument with a single-project [context](#contexts) (e.g. `ide` or `claude-code`).
+  `--project <path>` argument with a single-project [context](#contexts) (e.g. `ide`, `claude-code`, or `codebuddy`).
 - In the global configuration case, you must first activate the project you want to work on, which you can do by asking
   the LLM to do so (e.g., "Activate the current dir as project using serena"). In such settings, the `activate_project`
   tool is required.
@@ -47,7 +47,7 @@ In this case, a workaround is to provide the full path to the `serena` executabl
 **Serena's tools not being used**.
 With some clients, you may experience that Serena's tools are not being used.
 This is mainly due to problems in the client itself (like a poorly implemented tool discovery). To counteract this,
-Serena comes with a set of commands that can be used in _hooks_. See the sections on hooks for Claude Code and VSCode below.
+Serena comes with a set of commands that can be used in _hooks_. See the sections on hooks for Claude Code, CodeBuddy, and VSCode below.
 
 **Environment Variables**.
 Some language servers may require additional environment variables to be set (e.g. F# on macOS with Homebrew),
@@ -224,6 +224,93 @@ The hooks will:
 
 For more details on Claude Code's hook system, see the
 [Claude Code hooks documentation](https://code.claude.com/docs/en/hooks).
+
+## CodeBuddy
+
+Serena provides native support for CodeBuddy, a CLI coding agent that shares a similar architecture with Claude Code.
+To set up the Serena MCP server for CodeBuddy, simply run:
+
+    serena setup codebuddy
+
+### Manual Setup
+
+**Global Configuration**. To add the Serena MCP server for all your projects, use the user-level configuration of CodeBuddy and the `--project-from-cwd` flag:
+
+```bash
+codebuddy mcp add --scope user serena -- serena start-mcp-server --context codebuddy --project-from-cwd
+```
+
+**Project-Level Configuration**. To add the Serena MCP server for a single project only:
+
+```bash
+codebuddy mcp add serena -- serena start-mcp-server --context codebuddy --project "$(pwd)"
+```
+
+Confirm that CodeBuddy is connected to Serena by running the `/mcp` command and reconnecting if necessary.
+
+### Hooks
+
+CodeBuddy supports the same hook system as Claude Code. To set up hooks, add the following to your CodeBuddy settings file (`.codebuddy/settings.json` in your project directory, or `~/.codebuddy/settings.json` globally):
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "serena-hooks remind --client=codebuddy"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "serena-hooks auto-approve --client=codebuddy"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "serena-hooks activate --client=codebuddy"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "serena-hooks cleanup --client=codebuddy"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Hook Descriptions
+
+- **`remind`**: Remind the agent to use Serena's tools instead of built-in `grep` and `read` tools.
+- **`activate`**: Prompt the agent to activate the project at session start and read Serena's instructions.
+- **`cleanup`**: Clean up hook session data when the session ends.
+- **`auto-approve`**: Auto-approve Serena tool calls whenever CodeBuddy is in a permissive
+  permission mode (`acceptEdits` or `auto`), so blanket approvals cover Serena's destructive
+  tools (e.g. `replace_symbol_body`, `rename_symbol`) instead of prompting on every call.
 
 ## VSCode
 

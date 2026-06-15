@@ -124,7 +124,7 @@ class TestResolveConfigDir:
         (tmp_path / "plugins").mkdir()
         with patch("solidlsp.language_servers.eclipse_jdtls.PlatformUtils.get_platform_id") as mock_get_pid:
             mock_get_pid.return_value.value = "linux-x64"
-            with pytest.raises(SolidLSPException, match="Config directory .* not found"):
+            with pytest.raises(SolidLSPException, match=r"Config directory .* not found"):
                 EclipseJDTLS.DependencyProvider._resolve_config_dir(tmp_path)
 
     def test_raises_for_unsupported_platform(self, tmp_path: Path) -> None:
@@ -177,7 +177,7 @@ class TestInspectJava:
     def test_raises_when_java_home_property_missing(self) -> None:
         stderr = 'java version "21.0.0"\n'
         with patch("subprocess.run", return_value=self._fake_subprocess_result(stderr)):
-            with pytest.raises(SolidLSPException, match="Could not parse java.home"):
+            with pytest.raises(SolidLSPException, match=r"Could not parse java.home"):
                 EclipseJDTLS.DependencyProvider._inspect_java("/usr/bin/fakejava")
 
     def test_raises_when_version_string_missing(self) -> None:
@@ -350,7 +350,7 @@ class TestSetupFromExistingInstall:
     def test_raises_when_lombok_jar_missing(
         self, jdtls_root: Path, tmp_path: Path, custom_settings: SolidLSPSettings.CustomLSSettings
     ) -> None:
-        with pytest.raises(SolidLSPException, match="lombok_path .* does not exist"):
+        with pytest.raises(SolidLSPException, match=r"lombok_path .* does not exist"):
             EclipseJDTLS.DependencyProvider._setup_from_existing_install(
                 str(jdtls_root), str(tmp_path / "no-such-lombok.jar"), custom_settings
             )

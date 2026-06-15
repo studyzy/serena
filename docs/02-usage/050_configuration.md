@@ -71,6 +71,7 @@ Serena comes with pre-defined contexts:
 * `desktop-app`: Tailored for use with desktop applications like Claude Desktop. This is the default.
   The full set of Serena's tools is provided, as the application is assumed to have no prior coding-specific capabilities.
 * `claude-code`: Optimized for use with Claude Code, it disables tools that would duplicate Claude Code's built-in capabilities.
+* `codebuddy`: Optimized for use with CodeBuddy, it disables tools that would duplicate CodeBuddy's built-in capabilities.
 * `codex`: Optimized for use with OpenAI Codex.
 * `ide`: Generic context for IDE assistants/coding agents, e.g. VSCode, Cursor, or Cline, focusing on augmenting existing capabilities.
   Basic file operations and shell execution are assumed to be handled by the assistant's own capabilities.
@@ -80,7 +81,7 @@ Choose the context that best matches the type of integration you are using.
 
 Find the concrete definitions of the above contexts [here](https://github.com/oraios/serena/tree/main/src/serena/resources/config/contexts).
 
-Note that the contexts `ide` and `claude-code` are **single-project contexts** (defining `single_project: true`).
+Note that the contexts `ide`, `claude-code`, and `codebuddy` are **single-project contexts** (defining `single_project: true`).
 For such contexts, if a project is provided at startup, the set of tools is limited to those required by the project's
 concrete configuration, and other tools are excluded completely, allowing the set of tools to be minimal.
 Tools explicitly disabled by the project will not be available at all. Since changing the active project

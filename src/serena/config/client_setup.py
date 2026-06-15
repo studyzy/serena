@@ -88,4 +88,25 @@ class ClientSetupHandlerCodex(ClientSetupHandler):
         return self._run_shell_command(f"codex mcp add serena -- {self.get_mcp_server_command()}")
 
 
-client_setup_handlers = [ClientSetupHandlerClaudeCode(), ClientSetupHandlerCodex()]
+class ClientSetupHandlerCodeBuddy(ClientSetupHandler):
+    def __init__(self) -> None:
+        super().__init__("codebuddy")
+
+    def is_applicable(self) -> bool:
+        result = execute_shell_command("codebuddy --version")
+        return result.return_code == 0 and "CodeBuddy" in result.stdout
+
+    def get_mcp_server_options(self) -> list[str]:
+        return ["--context=codebuddy", "--project-from-cwd"]
+
+    def apply(self) -> bool:
+        cmd = f"codebuddy mcp add --scope user serena -- {self.get_mcp_server_command()}"
+        is_success = self._run_shell_command(cmd)
+        if is_success:
+            click.echo("\nIMPORTANT: We additionally recommend to set up hooks for CodeBuddy to ensure the best experience.")
+            click.echo("   Please read the instructions here:")
+            click.echo("   https://oraios.github.io/serena/02-usage/030_clients.html#codebuddy")
+        return is_success
+
+
+client_setup_handlers = [ClientSetupHandlerClaudeCode(), ClientSetupHandlerCodeBuddy(), ClientSetupHandlerCodex()]

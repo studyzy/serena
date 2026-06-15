@@ -72,7 +72,7 @@ but an LLM is required to do the actual work, orchestrating tool use.
 
 Serena can extend the functionality of your existing AI client via the **model context protocol (MCP)**.
 Most modern AI chat clients directly support MCP, including
-* terminal-based clients like Claude Code, Codex, OpenCode, or Gemini-CLI,
+* terminal-based clients like Claude Code, CodeBuddy, Codex, OpenCode, or Gemini-CLI,
 * IDEs and IDE assistant plugins for VSCode, Cursor and JetBrains IDEs (Copilot, Junie, JetBrains AI Assistant, etc.),
 * desktop and web clients like Claude Desktop, Codex App, or OpenWebUI.
 
@@ -184,7 +184,7 @@ via a persistent REPL-style interface.
 ### Basic Features
 
 Beyond its semantic capabilities, Serena includes a set of basic utilities for completeness.
-When Serena is used inside an agentic harness such as Claude Code or Codex, these tools are typically disabled by default,
+When Serena is used inside an agentic harness such as Claude Code, CodeBuddy, or Codex, these tools are typically disabled by default,
 since the surrounding harness already provides overlapping file, search, and shell capabilities.
 
 - **`search_for_pattern`** – flexible regex search across the codebase 
@@ -242,7 +242,7 @@ By default, this will set up Serena to use the language server backend. To use t
 Either way, you should receive a success message indicating that Serena has been initialised successfully.
 
 **Configuring Your Client**. To connect Serena to your preferred MCP client, you typically need to [configure a launch command in your client](https://oraios.github.io/serena/02-usage/030_clients.html).
-Follow the link for specific instructions on how to set up Serena for Claude Code, Codex, Claude Desktop, MCP-enabled IDEs and other clients (such as local and web-based GUIs). 
+Follow the link for specific instructions on how to set up Serena for Claude Code, CodeBuddy, Codex, Claude Desktop, MCP-enabled IDEs and other clients (such as local and web-based GUIs). 
 
 > [!TIP]
 > While getting started quickly is easy, Serena is a powerful toolkit with many configuration options.

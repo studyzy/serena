@@ -33,7 +33,7 @@ which has several advantages over the language server-based approach.
 
 ### Standard I/O Mode
 
-The typical usage involves the client (e.g. Claude Code, Codex or Cursor) running
+The typical usage involves the client (e.g. Claude Code, CodeBuddy, Codex or Cursor) running
 the MCP server as a subprocess and using the process' stdin/stdout streams to communicate with it.
 In order to launch the server, the client thus needs to be provided with the command to run the MCP server.
 
@@ -49,7 +49,7 @@ case, you can simply run the `start-mcp-server` command without any additional o
  
     serena start-mcp-server
 
-See the section ["Configuring Your MCP Client"](030_clients) for specific information on how to configure your MCP client (e.g. Claude Code, Codex, Cursor, etc.)
+See the section ["Configuring Your MCP Client"](030_clients) for specific information on how to configure your MCP client (e.g. Claude Code, CodeBuddy, Codex, Cursor, etc.)
 to use such a launch command.
 
 (streamable-http)=
@@ -95,7 +95,7 @@ Some useful options include:
     (walking up the parent directories and activating the nearest one that contains either `.serena/project.yml`
     or `.git`, if any). The nearest boundary wins, so a git worktree nested under another Serena project resolves
     to the worktree itself rather than the ancestor project.
-    This option is intended for CLI-based agents like Claude Code, Gemini and Codex, which are typically started from within the project directory
+    This option is intended for CLI-based agents like Claude Code, CodeBuddy, Gemini and Codex, which are typically started from within the project directory
     and which do not change directories during their operation.
   * `--language-backend JetBrains`: use the Serena JetBrains Plugin as the language backend (overriding the default backend configured in the central configuration)
   * `--context <context>`: specify the operation [context](contexts) in which Serena shall operate

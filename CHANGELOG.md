@@ -6,7 +6,7 @@ Status of the `main` branch. Changes prior to the next official version change w
   - Fix `--project-from-cwd` hijacking git worktrees nested under a Serena project. `find_project_root`
     now walks up in a single pass so the nearest project boundary wins (either a `.serena/project.yml`
     or a `.git`, including worktree/submodule pointer files), instead of preferring an ancestor's
-    `.serena/project.yml` over a closer `.git`. This previously bound CLI agents (Claude Code, Codex,
+    `.serena/project.yml` over a closer `.git`. This previously bound CLI agents (Claude Code, CodeBuddy, Codex,
     Gemini) launched from inside a worktree to the parent repo, causing stale reads and misdirected edits.
   - Fix: CLI flags on `start-mcp-server` could incorrectly be saved to the global configuration file if the
     list of projects was modified (triggering a save of the configuration with transient overrides applied)

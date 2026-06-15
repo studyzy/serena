@@ -124,12 +124,12 @@ You can either choose to do this
       * "Activate the project my_project"
    
    Note that this option requires the `activate_project` tool to be active, 
-   which it isn't in single-project [contexts](contexts) like `ide` or `claude-code` *if* a project is provided at startup.
+   which it isn't in single-project [contexts](contexts) like `ide`, `claude-code`, or `codebuddy` *if* a project is provided at startup.
    (The tool is deactivated, because we assume that in these contexts, user will only work on the single, open project and have
    no need to switch it.)
 
  * when the MCP server starts, by passing the project path or name as a command-line argument
-   (e.g. when using a single-project mode like `ide` or `claude-code`): `--project <path|name>`
+   (e.g. when using a single-project mode like `ide`, `claude-code`, or `codebuddy`): `--project <path|name>`
 
 When working with the JetBrains plugin, be sure to have the same project folder open as a project in your IDE,
 i.e. the folder that is activated in Serena should correspond to the root folder of the project in your IDE.
